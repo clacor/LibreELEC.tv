@@ -34,14 +34,3 @@
  }
  
  void CCECClient::CallbackAddLog(const cec_log_message_cpp &message)
---- libcec-master/src/libcec/CECClient.h      2018-03-02 13:47:13.948464097 -0500
-+++ libcec-fixed/src/libcec/CECClient.h       2018-03-02 13:50:28.639232130 -0500
-@@ -459,6 +459,8 @@
-     int32_t                                  m_pressedButtoncount;                /**< the number of times a button released message has been seen for this press. */
-     int32_t                                  m_releasedButtoncount;               /**< the number of times a button pressed message has been seen for this press. */
-     int64_t                                  m_iPreventForwardingPowerOffCommand; /**< prevent forwarding standby commands until this time */
-+    int64_t               m_iLastKeypressTime;                 /**< last time a key press was sent to the client */
-+    cec_keypress          m_lastKeypress;                      /**< the last key press that was sent to the client */
-     P8PLATFORM::SyncedBuffer<CCallbackWrap*> m_callbackCalls;
-   };
- }
