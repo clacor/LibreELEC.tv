@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="snapserver"
-PKG_VERSION="0.24.0"
-PKG_REV="105"
+PKG_VERSION="0.26.0"
+PKG_REV="110"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv3"
 PKG_DEPENDS_TARGET="toolchain shairport-sync snapcast"
@@ -23,4 +23,6 @@ addon() {
   cp "$(get_install_dir shairport-sync)/usr/bin/shairport-sync" \
      "$(get_install_dir snapcast)/usr/bin/snapserver" \
      "${ADDON_BUILD}/${PKG_ADDON_ID}/bin"
+
+  cp -Pr ${PKG_DIR}/snapweb ${ADDON_BUILD}/${PKG_ADDON_ID}/
 }

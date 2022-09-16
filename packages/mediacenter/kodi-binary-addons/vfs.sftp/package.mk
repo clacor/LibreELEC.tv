@@ -2,9 +2,9 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="vfs.sftp"
-PKG_VERSION="2.0.0-Matrix"
-PKG_SHA256="b15c5dde7b3aadb3e82e61cb9b0440812b6c2f65b38c6c25aef726f97e746f68"
-PKG_REV="4"
+PKG_VERSION="20.1.0-Nexus"
+PKG_SHA256="1d1acd24b40be5ceeef37f94bd0783a462ae19bef0b19dc27a4518cfba0fda23"
+PKG_REV="2"
 PKG_ARCH="any"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/xbmc/vfs.sftp"

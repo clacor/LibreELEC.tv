@@ -3,8 +3,8 @@
 # Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="connman"
-PKG_VERSION="69a221f912312d7a94eca40aa09a45e3bc70369a" # 1.39 + 2021-02-22
-PKG_SHA256="d1e8af6727f5fbae6a2c8ab7c08e9e74bd264fef6ea099360f2440e2a1398394"
+PKG_VERSION="1e1d2af009efc8a8b65eccc06188bd6b28271af7" # 1.41+ / 2022-05-25
+PKG_SHA256="bfdc7a8261c476c003df59a2952090dacf67c78b97027f06db3280edce0d4ee5"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.connman.net"
 PKG_URL="https://git.kernel.org/pub/scm/network/connman/connman.git/snapshot/connman-${PKG_VERSION}.tar.gz"
@@ -67,6 +67,10 @@ esac
 PKG_MAKE_OPTS_TARGET="storagedir=/storage/.cache/connman \
                       vpn_storagedir=/storage/.config/wireguard \
                       statedir=/run/connman"
+
+post_configure_target() {
+  libtool_remove_rpath libtool
+}
 
 post_makeinstall_target() {
   rm -rf ${INSTALL}/usr/lib/systemd

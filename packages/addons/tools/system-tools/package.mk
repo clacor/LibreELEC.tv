@@ -3,7 +3,7 @@
 
 PKG_NAME="system-tools"
 PKG_VERSION="1.0"
-PKG_REV="121"
+PKG_REV="131"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://libreelec.tv"
@@ -11,7 +11,7 @@ PKG_URL=""
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SECTION="virtual"
 PKG_SHORTDESC="A bundle of system tools and programs"
-PKG_LONGDESC="This bundle currently includes autossh, diffutils, dstat, dtach, efibootmgr, encfs, evtest, fdupes, file, getscancodes, hddtemp, hd-idle, hid_mapper, htop, i2c-tools, inotify-tools, jq, lm_sensors, lshw, mc, mtpfs, nmon, p7zip, patch, pv, screen, smartmontools, stress-ng, unrar, usb-modeswitch and vim."
+PKG_LONGDESC="This bundle currently includes autossh, bottom, diffutils, dstat, dtach, efibootmgr, encfs, evtest, fdupes, file, getscancodes, hddtemp, hd-idle, hid_mapper, htop, i2c-tools, inotify-tools, jq, kmsxx, libgpiod, lm_sensors, lshw, mc, mmc-utils, mtpfs, nmon, p7zip, patch, pv, screen, smartmontools, stress-ng, unrar, usb-modeswitch and vim."
 
 PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="System Tools"
@@ -19,6 +19,7 @@ PKG_ADDON_TYPE="xbmc.python.script"
 
 PKG_DEPENDS_TARGET="toolchain \
                     autossh \
+                    bottom \
                     diffutils \
                     dstat \
                     dtach \
@@ -34,15 +35,19 @@ PKG_DEPENDS_TARGET="toolchain \
                     i2c-tools \
                     inotify-tools \
                     jq \
+                    kmsxx \
+                    libgpiod \
                     lm_sensors \
                     lshw \
                     mc \
+                    mmc-utils \
                     mtpfs \
                     nmon \
                     p7zip \
                     patch \
                     pv \
                     screen \
+                    sdparm \
                     smartmontools \
                     stress-ng \
                     unrar \
@@ -58,6 +63,9 @@ addon() {
 
     # autossh
     cp -P $(get_install_dir autossh)/usr/bin/autossh ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
+
+    # bottom
+    cp -P $(get_install_dir bottom)/btm ${ADDON_BUILD}/${PKG_ADDON_ID}/bin 2>/dev/null || :
 
     # diffutils
     cp -P $(get_install_dir diffutils)/usr/bin/{cmp,diff,diff3,sdiff} ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
@@ -112,7 +120,13 @@ addon() {
 
     # jq
     cp -P $(get_install_dir jq)/usr/bin/jq ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
-    cp -P $(get_install_dir oniguruma)/usr/lib/{libonig.so,libonig.so.5,libonig.so.5.1.0} ${ADDON_BUILD}/${PKG_ADDON_ID}/lib
+    cp -P $(get_install_dir oniguruma)/usr/lib/{libonig.so,libonig.so.5,libonig.so.5.*.*} ${ADDON_BUILD}/${PKG_ADDON_ID}/lib
+
+    # kmsxx
+    cp -P $(get_install_dir kmsxx)/usr/bin/{kmsblank,kmsprint,kmstest} ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
+
+    # libgpiod
+    cp -P $(get_install_dir libgpiod)/usr/bin/{gpiodetect,gpiofind,gpioget,gpioinfo,gpiomon,gpioset} ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
 
     # lm_sensors
     cp -P $(get_install_dir lm_sensors)/usr/bin/sensors ${ADDON_BUILD}/${PKG_ADDON_ID}/bin 2>/dev/null || :
@@ -123,6 +137,9 @@ addon() {
     # mc
     cp -Pa $(get_install_dir mc)/usr/bin/* ${ADDON_BUILD}/${PKG_ADDON_ID}/bin/
     cp -Pa $(get_install_dir mc)/storage/.kodi/addons/virtual.system-tools/* ${ADDON_BUILD}/${PKG_ADDON_ID}
+
+    # mmc-utils
+    cp -P $(get_install_dir mmc-utils)/usr/local/bin/mmc ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
 
     # mtpfs
     cp -P $(get_install_dir mtpfs)/usr/bin/mtpfs ${ADDON_BUILD}/${PKG_ADDON_ID}/bin/
@@ -143,6 +160,9 @@ addon() {
 
     # screen
     cp -L $(get_install_dir screen)/usr/bin/screen ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
+
+    # sdparm
+    cp -P $(get_install_dir sdparm)/usr/bin/sdparm ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
 
     # smartmontools
     cp -P $(get_install_dir smartmontools)/usr/sbin/smartctl ${ADDON_BUILD}/${PKG_ADDON_ID}/bin

@@ -3,25 +3,23 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="mesa"
-PKG_VERSION="21.0.1"
-PKG_SHA256="379fc984459394f2ab2d84049efdc3a659869dc1328ce72ef0598506611712bb"
+PKG_VERSION="22.1.7"
+PKG_SHA256="da838eb2cf11d0e08d0e9944f6bd4d96987fdc59ea2856f8c70a31a82b355d89"
 PKG_LICENSE="OSS"
 PKG_SITE="http://www.mesa3d.org/"
 PKG_URL="https://mesa.freedesktop.org/archive/mesa-${PKG_VERSION}.tar.xz"
 PKG_DEPENDS_TARGET="toolchain expat libdrm Mako:host"
 PKG_LONGDESC="Mesa is a 3-D graphics library with an API."
-PKG_TOOLCHAIN="meson"
 
 get_graphicdrivers
 
-PKG_MESON_OPTS_TARGET="-Ddri-drivers=${DRI_DRIVERS// /,} \
+PKG_MESON_OPTS_TARGET="-Ddri-drivers= \
                        -Dgallium-drivers=${GALLIUM_DRIVERS// /,} \
                        -Dgallium-extra-hud=false \
                        -Dgallium-xvmc=disabled \
                        -Dgallium-omx=disabled \
                        -Dgallium-nine=false \
                        -Dgallium-opencl=disabled \
-                       -Dvulkan-drivers= \
                        -Dshader-cache=enabled \
                        -Dshared-glapi=enabled \
                        -Dopengl=true \
@@ -38,9 +36,9 @@ if [ "${DISPLAYSERVER}" = "x11" ]; then
   PKG_DEPENDS_TARGET+=" xorgproto libXext libXdamage libXfixes libXxf86vm libxcb libX11 libxshmfence libXrandr libglvnd"
   export X11_INCLUDES=
   PKG_MESON_OPTS_TARGET+=" -Dplatforms=x11 -Ddri3=enabled -Dglx=dri -Dglvnd=true"
-elif [ "${DISPLAYSERVER}" = "weston" ]; then
-  PKG_DEPENDS_TARGET+=" wayland wayland-protocols"
-  PKG_MESON_OPTS_TARGET+=" -Dplatforms=wayland -Ddri3=disabled -Dglx=disabled -Dglvnd=false"
+elif [ "${DISPLAYSERVER}" = "wl" ]; then
+  PKG_DEPENDS_TARGET+=" wayland wayland-protocols libglvnd"
+  PKG_MESON_OPTS_TARGET+=" -Dplatforms=wayland -Ddri3=disabled -Dglx=disabled -Dglvnd=true"
 else
   PKG_MESON_OPTS_TARGET+=" -Dplatforms="" -Ddri3=disabled -Dglx=disabled -Dglvnd=false"
 fi
@@ -78,3 +76,9 @@ else
   PKG_MESON_OPTS_TARGET+=" -Dgles1=disabled -Dgles2=disabled"
 fi
 
+if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${VULKAN} vulkan-tools"
+  PKG_MESON_OPTS_TARGET+=" -Dvulkan-drivers=${VULKAN_DRIVERS_MESA// /,}"
+else
+  PKG_MESON_OPTS_TARGET+=" -Dvulkan-drivers="
+fi

@@ -2,8 +2,8 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libretro-beetle-lynx"
-PKG_VERSION="c27322ec7f47fd8899fbbdb24827b0c1824cac8f"
-PKG_SHA256="9ca3b46a7a888df3ad383ffe337b67036755738b9438e67d08b23bf986983b8d"
+PKG_VERSION="26d94696eb005499d981970f052fdd7beda12c1e"
+PKG_SHA256="2761dcadc118584271e04401b0e63c73d96ebbfe787ab9b53c863ae12c626c3d"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/beetle-lynx-libretro"
 PKG_URL="https://github.com/libretro/beetle-lynx-libretro/archive/${PKG_VERSION}.tar.gz"

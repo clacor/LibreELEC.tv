@@ -2,8 +2,8 @@
 # Copyright (C) 2020-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="visualization.matrix"
-PKG_VERSION="1.0.0-Matrix"
-PKG_SHA256="fc5c4790cbf957dbf8d504ae7c43eaeca122fde6423f1135029ff053135f8fd0"
+PKG_VERSION="20.1.0-Nexus"
+PKG_SHA256="ffba588c1b02ac0b18f6b243073ba7fe78486d21ba6b1f02277d7f8966663e8f"
 PKG_REV="2"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/xbmc/visualization.matrix"

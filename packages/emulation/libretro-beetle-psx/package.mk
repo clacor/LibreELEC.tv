@@ -2,8 +2,8 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libretro-beetle-psx"
-PKG_VERSION="e1836bde1b250d41c6f91c2b6f06444d989f1138"
-PKG_SHA256="1495fc8f7fcaeb2b1f1ae9d8b5a0ffaad0fc0cd72634746964b42b67bc3a9732"
+PKG_VERSION="88929ae90b4807a41b1b240377ab440e39ecf2cc"
+PKG_SHA256="a077d53f5bb76894f77e68ce33c02e6f5040f3aadccb365e93fc5789de38f513"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/beetle-psx-libretro"
 PKG_URL="https://github.com/libretro/beetle-psx-libretro/archive/${PKG_VERSION}.tar.gz"
@@ -13,6 +13,8 @@ PKG_LONGDESC="Fork of Mednafen PSX"
 PKG_LIBNAME="mednafen_psx_libretro.so"
 PKG_LIBPATH="${PKG_LIBNAME}"
 PKG_LIBVAR="BEETLE-PSX_LIB"
+
+PKG_MAKE_OPTS_TARGET="GIT_VERSION=${PKG_VERSION:0:7} LINK_STATIC_LIBCPLUSPLUS=0"
 
 makeinstall_target() {
   mkdir -p ${SYSROOT_PREFIX}/usr/lib/cmake/${PKG_NAME}

@@ -3,16 +3,25 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="pango"
-PKG_VERSION="1.48.0"
-PKG_SHA256="391f26f3341c2d7053e0fb26a956bd42360dadd825efe7088b1e9340a65e74e6"
+PKG_VERSION="1.50.8"
+PKG_SHA256="cf626f59dd146c023174c4034920e9667f1d25ac2c1569516d63136c311255fa"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.pango.org/"
-PKG_URL="https://ftp.gnome.org/pub/gnome/sources/pango/${PKG_VERSION:0:4}/pango-${PKG_VERSION}.tar.xz"
-PKG_DEPENDS_TARGET="toolchain cairo freetype fontconfig fribidi glib harfbuzz libX11 libXft"
-PKG_DEPENDS_CONFIG="libXft cairo"
+PKG_URL="https://download.gnome.org/sources/pango/${PKG_VERSION:0:4}/pango-${PKG_VERSION}.tar.xz"
+PKG_DEPENDS_TARGET="toolchain cairo freetype fontconfig fribidi glib json-glib harfbuzz"
+PKG_DEPENDS_CONFIG="cairo"
 PKG_LONGDESC="The Pango library for layout and rendering of internationalized text."
-PKG_TOOLCHAIN="meson"
-PKG_BUILD_FLAGS="-sysroot"
 
-PKG_MESON_OPTS_TARGET="-Denable_docs=false \
-                       -Dgir=false"
+configure_package() {
+  # Build with X11 support
+  if [ ${DISPLAYSERVER} = "x11" ]; then
+    PKG_DEPENDS_TARGET+=" libX11 libXft"
+    PKG_DEPENDS_CONFIG+=" libXft"
+    PKG_BUILD_FLAGS="-sysroot"
+  fi
+}
+
+pre_configure_target() {
+  PKG_MESON_OPTS_TARGET="-Dgtk_doc=false \
+                         -Dintrospection=disabled"
+}

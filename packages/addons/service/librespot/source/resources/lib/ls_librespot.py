@@ -37,6 +37,8 @@ class Librespot(xbmc.Player):
         settings = get_settings()
         quoted = {k: shlex.quote(v) for (k, v) in settings.items()}
         command = LIBRESPOT
+        if settings['connect_port'] != "0":
+            command += ' --zeroconf-port %s ' % settings['connect_port']
         if settings['autoplay'] == 'true':
             command += LIBRESPOT_AUTOPLAY
         if (settings['discovery'] == 'false' and
@@ -119,7 +121,8 @@ class Librespot(xbmc.Player):
                 env=ADDON_ENVT,
                 stderr=subprocess.STDOUT,
                 stdout=subprocess.PIPE,
-                text=True)
+                text=True,
+                encoding='utf-8')
             log('librespot started')
             with self.librespot.stdout:
                 for line in self.librespot.stdout:

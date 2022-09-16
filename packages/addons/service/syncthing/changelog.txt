@@ -1,3 +1,25 @@
+121
+- update to 1.21.0
+
+120
+- update to 1.20.1
+
+119
+- update to 1.20.0
+
+118
+- update to 1.18.5
+
+117
+- update to 1.17.0
+
+116
+- update to 1.16.1
+
+115
+- Update to 1.15.1
+- fix script - STNODEFAULTFOLDER=1
+
 114
 - Update to 1.14.0
 

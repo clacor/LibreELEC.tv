@@ -2,14 +2,14 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="btrfs-progs"
-PKG_VERSION="4.15.1"
-PKG_SHA256="9cb985b3466e2e0ca712ef8570d7eb2f94b56592221baf0fc76622f413852445"
-PKG_REV="103"
+PKG_VERSION="5.19"
+PKG_SHA256="4454483dae038efabe1251eb395d195ab6f1e91e1d722d1f99eb3b9e2c4b2c4a"
+PKG_REV="109"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://btrfs.wiki.kernel.org/index.php/Main_Page"
 PKG_URL="https://github.com/kdave/btrfs-progs/archive/v${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain util-linux zlib lzo"
+PKG_DEPENDS_TARGET="toolchain util-linux zlib systemd lzo"
 PKG_SECTION="tools"
 PKG_SHORTDESC="tools for the btrfs filesystem"
 PKG_LONGDESC="tools for the btrfs filesystem"
@@ -24,6 +24,7 @@ PKG_ADDON_TYPE="xbmc.python.script"
 PKG_CONFIGURE_OPTS_TARGET="--disable-backtrace \
                            --disable-convert \
                            --disable-documentation \
+                           --disable-python \
                            --disable-zstd"
 
 pre_configure_target() {
@@ -32,5 +33,5 @@ pre_configure_target() {
 
 addon() {
   mkdir -p ${ADDON_BUILD}/${PKG_ADDON_ID}/bin/
-    cp -P ${PKG_INSTALL}/usr/bin/{btrfs,btrfsck,btrfstune,btrfs-zero-log,fsck.btrfs,mkfs.btrfs} ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
+    cp -P ${PKG_INSTALL}/usr/bin/{btrfs,btrfsck,btrfstune,fsck.btrfs,mkfs.btrfs} ${ADDON_BUILD}/${PKG_ADDON_ID}/bin
 }

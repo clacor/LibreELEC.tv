@@ -2,8 +2,8 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libretro-quicknes"
-PKG_VERSION="fc43dbd4603c68863b9e59b2ec022f2e4004f3a2"
-PKG_SHA256="be4b8d2ea5d7723276dbc83ef59d424d740f0204e68b66dd45968eb5a22fbee2"
+PKG_VERSION="9f16c3fc13908eac423e39a1ea967afa0b7479ae"
+PKG_SHA256="735bb99f780502713119345b79bf57b1f2ab4ce13b2907a716550d802513366a"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/QuickNES_Core"
 PKG_URL="https://github.com/libretro/QuickNES_Core/archive/${PKG_VERSION}.tar.gz"

@@ -2,13 +2,13 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="rsyslog"
-PKG_VERSION="8.2102.0"
-PKG_SHA256="94ee0d0312c2edea737665594cbe4a9475e4e3b593e12b5b8ae3a743ac9c72a7"
-PKG_REV="107"
+PKG_VERSION="8.2206.0"
+PKG_SHA256="a1377218b26c0767a7a3f67d166d5338af7c24b455d35ec99974e18e6845ba27"
+PKG_REV="111"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/rsyslog"
-PKG_URL="http://www.rsyslog.com/files/download/rsyslog/${PKG_NAME}-${PKG_VERSION}.tar.gz"
+PKG_URL="https://www.rsyslog.com/files/download/rsyslog/${PKG_NAME}-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain curl libestr libfastjson libgcrypt liblogging liblognorm librelp util-linux zlib"
 PKG_SECTION="service"
 PKG_SHORTDESC="Rsyslog: a rocket-fast system for log processing."
@@ -31,6 +31,10 @@ export LIBGCRYPT_CONFIG="${SYSROOT_PREFIX}/usr/bin/libgcrypt-config"
 
 pre_configure_target() {
   CFLAGS+=" -fcommon"
+}
+
+post_configure_target() {
+  libtool_remove_rpath libtool
 }
 
 addon() {

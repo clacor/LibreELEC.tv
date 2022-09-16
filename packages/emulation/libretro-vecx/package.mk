@@ -2,8 +2,8 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libretro-vecx"
-PKG_VERSION="98bd64b66923f4fc93eb6831f79c4119150bbe80"
-PKG_SHA256="75bec727d962db5a7ea2425252a905f69d1c14dd93cdbae134d633b2e080721c"
+PKG_VERSION="28d6efc8972313903d0802a736ff8c3bc115e78f"
+PKG_SHA256="8584af54ce532c4bb37a20a023eda9fcfa90a5d2bea66d5d65abeeab183836eb"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/libretro/libretro-vecx"
 PKG_URL="https://github.com/libretro/libretro-vecx/archive/${PKG_VERSION}.tar.gz"
@@ -13,6 +13,14 @@ PKG_LONGDESC="game.libretro.vecx: vecx for Kodi"
 PKG_LIBNAME="vecx_libretro.so"
 PKG_LIBPATH="${PKG_LIBNAME}"
 PKG_LIBVAR="VECX_LIB"
+
+if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+fi
+
+if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${OPENGL}"
+fi
 
 make_target() {
   if [ "${OPENGL_SUPPORT}" = no ]; then

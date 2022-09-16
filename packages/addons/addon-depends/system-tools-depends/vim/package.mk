@@ -2,8 +2,8 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="vim"
-PKG_VERSION="8.2.2293"
-PKG_SHA256="20f9bc8b170fd278a6f319fde0edf5698f2707a395ebaafa9b1de9327f5a0775"
+PKG_VERSION="8.2.5052"
+PKG_SHA256="e96be06c4955cd5b75f0ea026d7845e136d435b9e7621f9534a1034c1a0ca724"
 PKG_LICENSE="VIM"
 PKG_SITE="http://www.vim.org/"
 PKG_URL="https://github.com/vim/vim/archive/v${PKG_VERSION}.tar.gz"
@@ -22,6 +22,7 @@ PKG_CONFIGURE_OPTS_TARGET="vim_cv_getcwd_broken=no \
                            ac_cv_sizeof_int=4 \
                            ac_cv_small_wchar_t=no \
                            --datarootdir=/storage/.kodi/addons/virtual.system-tools/data \
+                           --disable-canberra \
                            --disable-nls \
                            --enable-selinux=no \
                            --enable-gui=no \

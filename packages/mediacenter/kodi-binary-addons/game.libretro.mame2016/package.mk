@@ -2,9 +2,9 @@
 # Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="game.libretro.mame2016"
-PKG_VERSION="0.174.0.5-Matrix"
-PKG_SHA256="68d6fe22b3b49102abb458e4a20c5671a9141f7324516c87528c74ff64061b47"
-PKG_REV="3"
+PKG_VERSION="0.174.0.13-Matrix"
+PKG_SHA256="03009d9af57f0a781c823a2c27e3f60c151c6191d7fe3795a19a08c4a6384edc"
+PKG_REV="1"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/kodi-game/game.libretro.mame2016"
 PKG_URL="https://github.com/kodi-game/game.libretro.mame2016/archive/${PKG_VERSION}.tar.gz"

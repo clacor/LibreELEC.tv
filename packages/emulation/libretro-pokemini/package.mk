@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libretro-pokemini"
-PKG_VERSION="7a2016e09fe979ff60c9f2e19a4bda57c4ea4de4"
-PKG_SHA256="db380ee85102fccafcada82a7c69c570d7b61eb9cec73363036939c4636bdeca"
+PKG_VERSION="0e0adda7962c3bdfb9c6b7340509f8d1d543d874"
+PKG_SHA256="7fcf2094f32de6bced13ba5896de0970f3500ab6bc7df82aeb0ce5dec3d2a9fc"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/libretro/pokemini"
 PKG_URL="https://github.com/libretro/pokemini/archive/${PKG_VERSION}.tar.gz"

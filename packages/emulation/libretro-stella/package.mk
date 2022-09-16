@@ -2,8 +2,8 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libretro-stella"
-PKG_VERSION="005260ce7ebad93b980b9c16c91da70d7dd7c691"
-PKG_SHA256="5b774d12884912b6e17d67760072699a8168d4da85a3c72d5ea5dcd843c0672f"
+PKG_VERSION="1a2e96bc6ccf91de6fb4322048da05f67a9d21d4"
+PKG_SHA256="f4037d008685b4ee7a6f18a39f9b69c3e9e58be15b4b947a8e165516623e1a6d"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/stella-libretro"
 PKG_URL="https://github.com/libretro/stella-libretro/archive/${PKG_VERSION}.tar.gz"

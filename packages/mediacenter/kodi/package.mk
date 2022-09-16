@@ -3,12 +3,13 @@
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="kodi"
-PKG_VERSION="19.0-Matrix"
-PKG_SHA256="f7ef8a6f45862ae3b7ebfce4950d74f534be3cb4a0e67ce640963746b3f668f2"
+PKG_VERSION="20.0a3-Nexus"
+PKG_SHA256="46a0e8571b046c4d5bc2e1058c65259ba6ebb7d40cf853b8fd08967cf8e22c41"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_URL="https://github.com/xbmc/xbmc/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain JsonSchemaBuilder:host TexturePacker:host Python3 zlib systemd lzo pcre swig:host libass curl fontconfig fribidi tinyxml libjpeg-turbo freetype libcdio taglib libxml2 libxslt rapidjson sqlite ffmpeg crossguid libdvdnav libhdhomerun libfmt lirc libfstrcmp flatbuffers:host flatbuffers libudfread spdlog"
+PKG_DEPENDS_TARGET="toolchain JsonSchemaBuilder:host TexturePacker:host Python3 zlib systemd lzo pcre swig:host libass curl fontconfig fribidi tinyxml libjpeg-turbo freetype libcdio taglib libxml2 libxslt rapidjson sqlite ffmpeg crossguid libdvdnav libfmt lirc libfstrcmp flatbuffers:host flatbuffers libudfread spdlog"
+PKG_DEPENDS_HOST="toolchain"
 PKG_LONGDESC="A free and open source cross-platform media player."
 PKG_BUILD_FLAGS="+speed"
 
@@ -28,14 +29,16 @@ configure_package() {
 
   if [ "${DISPLAYSERVER}" = "x11" ]; then
     PKG_DEPENDS_TARGET+=" libX11 libXext libdrm libXrandr"
-    KODI_XORG="-DCORE_PLATFORM_NAME=x11 -DAPP_RENDER_SYSTEM=gl"
-  elif [ "${DISPLAYSERVER}" = "weston" ]; then
+    KODI_PLATFORM="-DCORE_PLATFORM_NAME=x11 \
+                   -DAPP_RENDER_SYSTEM=gl"
+  elif [ "${DISPLAYSERVER}" = "wl" ]; then
     PKG_DEPENDS_TARGET+=" wayland waylandpp"
-    CFLAGS+=" -DMESA_EGL_NO_X11_HEADERS"
-    CXXFLAGS+=" -DMESA_EGL_NO_X11_HEADERS"
-    KODI_XORG="-DCORE_PLATFORM_NAME=wayland \
-               -DAPP_RENDER_SYSTEM=gles \
-               -DWAYLANDPP_PROTOCOLS_DIR=${SYSROOT_PREFIX}/usr/share/waylandpp/protocols"
+    CFLAGS+=" -DEGL_NO_X11"
+    CXXFLAGS+=" -DEGL_NO_X11"
+    KODI_PLATFORM="-DCORE_PLATFORM_NAME=wayland \
+                   -DAPP_RENDER_SYSTEM=gles \
+                   -DWAYLANDPP_SCANNER=${TOOLCHAIN}/bin/wayland-scanner++ \
+                   -DWAYLANDPP_PROTOCOLS_DIR=${SYSROOT_PREFIX}/usr/share/waylandpp/protocols"
   fi
 
   if [ ! "${OPENGL}" = "no" ]; then
@@ -46,18 +49,33 @@ configure_package() {
     PKG_DEPENDS_TARGET+=" ${OPENGLES}"
   fi
 
-  if [ "${ALSA_SUPPORT}" = yes ]; then
+  if [ "${KODI_ALSA_SUPPORT}" = yes ]; then
     PKG_DEPENDS_TARGET+=" alsa-lib"
     KODI_ALSA="-DENABLE_ALSA=ON"
   else
     KODI_ALSA="-DENABLE_ALSA=OFF"
  fi
 
-  if [ "${PULSEAUDIO_SUPPORT}" = yes ]; then
+  if [ "${KODI_PULSEAUDIO_SUPPORT}" = yes ]; then
     PKG_DEPENDS_TARGET+=" pulseaudio"
     KODI_PULSEAUDIO="-DENABLE_PULSEAUDIO=ON"
   else
     KODI_PULSEAUDIO="-DENABLE_PULSEAUDIO=OFF"
+  fi
+
+  if [ "${ESPEAK_SUPPORT}" = yes ]; then
+    PKG_DEPENDS_TARGET+=" espeak-ng"
+  fi
+
+  if [ "${KODI_PIPEWIRE_SUPPORT}" = yes ]; then
+    PKG_DEPENDS_TARGET+=" pipewire"
+    KODI_PIPEWIRE="-DENABLE_PIPEWIRE=ON"
+
+    if [ "${KODI_PULSEAUDIO_SUPPORT}" = "yes" -o "${KODI_ALSA_SUPPORT}" = "yes" ]; then
+      die "KODI_PULSEAUDIO_SUPPORT and KODI_ALSA_SUPPORT cannot be used with KODI_PIPEWIRE_SUPPORT"
+    fi
+  else
+    KODI_PIPEWIRE="-DENABLE_PIPEWIRE=OFF"
   fi
 
   if [ "${CEC_SUPPORT}" = yes ]; then
@@ -131,6 +149,9 @@ configure_package() {
 
   if [ "${KODI_SAMBA_SUPPORT}" = yes ]; then
     PKG_DEPENDS_TARGET+=" samba"
+    KODI_SAMBA="-DENABLE_SMBCLIENT=ON"
+  else
+    KODI_SAMBA="-DENABLE_SMBCLIENT=OFF"
   fi
 
   if [ "${KODI_WEBSERVER_SUPPORT}" = yes ]; then
@@ -169,14 +190,22 @@ configure_package() {
     KODI_ARCH="-DWITH_ARCH=${TARGET_ARCH}"
   fi
 
-  if [ ! "${KODIPLAYER_DRIVER}" = default ]; then
+  if [ ! "${KODIPLAYER_DRIVER}" = "default" -a "${DISPLAYSERVER}" = "no" ]; then
     PKG_DEPENDS_TARGET+=" ${KODIPLAYER_DRIVER} libinput libxkbcommon"
     if [ "${OPENGLES_SUPPORT}" = yes -a "${KODIPLAYER_DRIVER}" = "${OPENGLES}" ]; then
-      KODI_PLAYER="-DCORE_PLATFORM_NAME=gbm -DAPP_RENDER_SYSTEM=gles"
+      KODI_PLATFORM="-DCORE_PLATFORM_NAME=gbm -DAPP_RENDER_SYSTEM=gles"
       CFLAGS+=" -DEGL_NO_X11"
       CXXFLAGS+=" -DEGL_NO_X11"
-      PKG_APPLIANCE_XML="${PKG_DIR}/config/appliance-gbm.xml"
+      if [ "${PROJECT}" = "Generic" ]; then
+        PKG_APPLIANCE_XML="${PKG_DIR}/config/appliance-gbm-generic.xml"
+      else
+        PKG_APPLIANCE_XML="${PKG_DIR}/config/appliance-gbm.xml"
+      fi
     fi
+  fi
+
+  if [ "${PROJECT}" = "Allwinner" -o "${PROJECT}" = "Rockchip" -o "${PROJECT}" = "RPi" ]; then
+    PKG_PATCH_DIRS+=" drmprime-filter"
   fi
 
   KODI_LIBDVD="${KODI_DVDCSS} \
@@ -196,6 +225,7 @@ configure_package() {
                          -DENABLE_INTERNAL_CROSSGUID=OFF \
                          -DENABLE_INTERNAL_UDFREAD=OFF \
                          -DENABLE_INTERNAL_SPDLOG=OFF \
+                         -DENABLE_INTERNAL_RapidJSON=OFF \
                          -DENABLE_UDEV=ON \
                          -DENABLE_DBUS=ON \
                          -DENABLE_XSLT=ON \
@@ -208,13 +238,14 @@ configure_package() {
                          -DENABLE_TESTING=OFF \
                          -DENABLE_INTERNAL_FLATBUFFERS=OFF \
                          -DENABLE_LCMS2=OFF \
+                         -DADDONS_CONFIGURE_AT_STARTUP=OFF \
                          ${PKG_KODI_USE_LTO} \
                          ${KODI_ARCH} \
                          ${KODI_NEON} \
                          ${KODI_VDPAU} \
                          ${KODI_VAAPI} \
                          ${KODI_CEC} \
-                         ${KODI_XORG} \
+                         ${KODI_PLATFORM} \
                          ${KODI_SAMBA} \
                          ${KODI_NFS} \
                          ${KODI_LIBDVD} \
@@ -225,7 +256,34 @@ configure_package() {
                          ${KODI_AIRTUNES} \
                          ${KODI_OPTICAL} \
                          ${KODI_BLURAY} \
-                         ${KODI_PLAYER}"
+                         ${KODI_ALSA} \
+                         ${KODI_PULSEAUDIO} \
+                         ${KODI_PIPEWIRE}"
+}
+
+configure_host() {
+  setup_toolchain target:cmake
+  cmake ${CMAKE_GENERATOR_NINJA} \
+        -DCMAKE_TOOLCHAIN_FILE=${CMAKE_CONF} \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+        -DHEADERS_ONLY=ON \
+        ${KODI_ARCH} \
+        ${KODI_NEON} \
+        ${KODI_PLATFORM} ..
+}
+
+make_host() {
+  :
+}
+
+makeinstall_host() {
+  DESTDIR=${SYSROOT_PREFIX} cmake -DCMAKE_INSTALL_COMPONENT="kodi-addon-dev" -P cmake_install.cmake
+
+  # more binaddons cross compile badness meh
+  sed -e "s:INCLUDE_DIR /usr/include/kodi:INCLUDE_DIR ${SYSROOT_PREFIX}/usr/include/kodi:g" \
+      -e "s:CMAKE_MODULE_PATH /usr/lib/kodi /usr/share/kodi/cmake:CMAKE_MODULE_PATH ${SYSROOT_PREFIX}/usr/share/kodi/cmake:g" \
+      -i ${SYSROOT_PREFIX}/usr/lib/kodi/cmake/KodiConfig.cmake
 }
 
 pre_configure_target() {
@@ -259,13 +317,24 @@ post_makeinstall_target() {
         -e "s|@KODI_MAX_SECONDS@|${KODI_MAX_SECONDS:-900}|g" \
         -i ${INSTALL}/usr/lib/kodi/kodi.sh
 
-    cp ${PKG_DIR}/config/kodi.conf ${INSTALL}/usr/lib/kodi/kodi.conf
+    if [ "${KODI_PIPEWIRE_SUPPORT}" = "yes" ]; then
+      KODI_AE_SINK="PIPEWIRE"
+    elif [ "${KODI_PULSEAUDIO_SUPPORT}" = "yes" -a "${KODI_ALSA_SUPPORT}" = "yes" ]; then
+      KODI_AE_SINK="ALSA+PULSE"
+    elif [ "${KODI_PULSEAUDIO_SUPPORT}" = "yes" -a "${KODI_ALSA_SUPPORT}" != "yes" ]; then
+      KODI_AE_SINK="PULSE"
+    elif [ "${KODI_PULSEAUDIO_SUPPORT}" != "yes" -a "${KODI_ALSA_SUPPORT}" = "yes" ]; then
+      KODI_AE_SINK="ALSA"
+    fi
+
+    # adjust audio output device to what was built
+    sed "s/@KODI_AE_SINK@/${KODI_AE_SINK}/" ${PKG_DIR}/config/kodi.conf.in > ${INSTALL}/usr/lib/kodi/kodi.conf
 
     # set default display environment
     if [ "${DISPLAYSERVER}" = "x11" ]; then
       echo "DISPLAY=:0.0" >> ${INSTALL}/usr/lib/kodi/kodi.conf
-    elif [ "${DISPLAYSERVER}" = "weston" ]; then
-      echo "WAYLAND_DISPLAY=wayland-0" >> ${INSTALL}/usr/lib/kodi/kodi.conf
+    elif [ "${DISPLAYSERVER}" = "wl" ]; then
+      echo "WAYLAND_DISPLAY=wayland-1" >> ${INSTALL}/usr/lib/kodi/kodi.conf
     fi
 
     # nvidia: Enable USLEEP to reduce CPU load while rendering
@@ -335,7 +404,7 @@ post_makeinstall_target() {
   # more binaddons cross compile badness meh
   sed -e "s:INCLUDE_DIR /usr/include/kodi:INCLUDE_DIR ${SYSROOT_PREFIX}/usr/include/kodi:g" \
       -e "s:CMAKE_MODULE_PATH /usr/lib/kodi /usr/share/kodi/cmake:CMAKE_MODULE_PATH ${SYSROOT_PREFIX}/usr/share/kodi/cmake:g" \
-      -i ${SYSROOT_PREFIX}/usr/share/kodi/cmake/KodiConfig.cmake
+      -i ${SYSROOT_PREFIX}/usr/lib/kodi/cmake/KodiConfig.cmake
 
   if [ "${KODI_EXTRA_FONTS}" = yes ]; then
     mkdir -p ${INSTALL}/usr/share/kodi/media/Fonts

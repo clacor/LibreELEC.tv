@@ -3,17 +3,17 @@
 
 PKG_NAME="Python3"
 # When changing PKG_VERSION remember to sync PKG_PYTHON_VERSION!
-PKG_VERSION="3.8.8"
-PKG_SHA256="7c664249ff77e443d6ea0e4cf0e587eae918ca3c48d081d1915fe2a1f1bcc5cc"
+PKG_VERSION="3.9.14"
+PKG_SHA256="651304d216c8203fe0adf1a80af472d8e92c3b0e0a7892222ae4d9f3ae4debcf"
 PKG_LICENSE="OSS"
-PKG_SITE="http://www.python.org/"
-PKG_URL="http://www.python.org/ftp/python/${PKG_VERSION}/${PKG_NAME::-1}-${PKG_VERSION}.tar.xz"
-PKG_DEPENDS_HOST="zlib:host bzip2:host libffi:host util-linux:host xz:host"
+PKG_SITE="https://www.python.org/"
+PKG_URL="https://www.python.org/ftp/python/${PKG_VERSION}/${PKG_NAME::-1}-${PKG_VERSION}.tar.xz"
+PKG_DEPENDS_HOST="zlib:host bzip2:host libffi:host util-linux:host xz:host autoconf-archive:host"
 PKG_DEPENDS_TARGET="toolchain Python3:host sqlite expat zlib bzip2 xz openssl libffi readline ncurses util-linux"
 PKG_LONGDESC="Python3 is an interpreted object-oriented programming language."
 PKG_TOOLCHAIN="autotools"
 
-PKG_PYTHON_VERSION="python3.8"
+PKG_PYTHON_VERSION="python3.9"
 
 PKG_PY_DISABLED_MODULES="_tkinter nis gdbm bsddb ossaudiodev"
 
