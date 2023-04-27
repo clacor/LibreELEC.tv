@@ -2,9 +2,9 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="syncthing"
-PKG_VERSION="1.21.0"
-PKG_SHA256="e70d70c7962383973acdbc2eb184548ae87de22ac6854045982c7960b8260450"
-PKG_REV="121"
+PKG_VERSION="1.23.4"
+PKG_SHA256="06a2882f8ac49e15faf96025b01d0edcd4cc190a419d5de98fbe8271695329fa"
+PKG_REV="2"
 PKG_ARCH="any"
 PKG_LICENSE="MPLv2"
 PKG_SITE="https://syncthing.net/"

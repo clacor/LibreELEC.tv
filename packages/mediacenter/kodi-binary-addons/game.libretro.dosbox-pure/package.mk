@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="game.libretro.dosbox-pure"
-PKG_VERSION="0.26.0.16-Matrix"
-PKG_SHA256="46c11506d0957711b014c9fc1039ed31aea363af7feed1b45d8bff50913d30b1"
+PKG_VERSION="0.9.7.22-Nexus"
+PKG_SHA256="b2843a56119247bd9e562012f1e667a3c37ffefa11fa418162e7743ac257f156"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="mpv-drmprime"
-PKG_VERSION="0.34.1"
-PKG_SHA256="32ded8c13b6398310fa27767378193dc1db6d78b006b70dbcbd3123a1445e746"
+PKG_VERSION="0.35.1"
+PKG_SHA256="41df981b7b84e33a2ef4478aaf81d6f4f5c8b9cd2c0d337ac142fc20b387d1a9"
 PKG_LICENSE="GPL"
 PKG_SITE="https://mpv.io/"
 PKG_URL="https://github.com/mpv-player/mpv/archive/v${PKG_VERSION}.tar.gz"
@@ -57,6 +57,12 @@ if [ "${KODI_BLURAY_SUPPORT}" = "yes" ]; then
 else
   PKG_MANUAL_OPTS_TARGET+=" --disable-libbluray"
 fi
+
+pre_configure_target() {
+#mpv does not build in the .TARGET_NAME
+  cd ${PKG_BUILD}
+    rm -rf .${TARGET_NAME}
+}
 
 configure_target() {
   waf configure ${PKG_MANUAL_OPTS_TARGET}

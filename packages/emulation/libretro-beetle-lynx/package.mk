@@ -2,21 +2,18 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libretro-beetle-lynx"
-PKG_VERSION="26d94696eb005499d981970f052fdd7beda12c1e"
-PKG_SHA256="2761dcadc118584271e04401b0e63c73d96ebbfe787ab9b53c863ae12c626c3d"
+PKG_VERSION="2941d8c0c5ba342b6e7bd7d431e8f9c5a6d5c2c9"
+PKG_SHA256="d985437397ec177ff0802fd2d661b3adb42beee5a6089f074fc4855d6e6ef944"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/beetle-lynx-libretro"
 PKG_URL="https://github.com/libretro/beetle-lynx-libretro/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain kodi-platform"
-PKG_LONGDESC="Standalone port of Mednafen Lynx to libretro, itself a fork of Handy"
+PKG_DEPENDS_TARGET="toolchain"
+PKG_LONGDESC="libretro implementation of Mednafen Lynx"
+PKG_TOOLCHAIN="make"
 
 PKG_LIBNAME="mednafen_lynx_libretro.so"
 PKG_LIBPATH="${PKG_LIBNAME}"
 PKG_LIBVAR="BEETLE-LYNX_LIB"
-
-make_target() {
-  make
-}
 
 makeinstall_target() {
   mkdir -p ${SYSROOT_PREFIX}/usr/lib/cmake/${PKG_NAME}

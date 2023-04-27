@@ -3,12 +3,12 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="sqlite"
-PKG_VERSION="3.39.2"
+PKG_VERSION="3.41.2"
 PKG_VERSION_SQLITE="${PKG_VERSION/./}00"
-PKG_SHA256="852be8a6183a17ba47cee0bbff7400b7aa5affd283bf3beefc34fcd088a239de"
+PKG_SHA256="e98c100dd1da4e30fa460761dab7c0b91a50b785e167f8c57acc46514fae9499"
 PKG_LICENSE="PublicDomain"
 PKG_SITE="https://www.sqlite.org/"
-PKG_URL="https://www.sqlite.org/2022/${PKG_NAME}-autoconf-${PKG_VERSION_SQLITE/./0}.tar.gz"
+PKG_URL="https://www.sqlite.org/2023/${PKG_NAME}-autoconf-${PKG_VERSION_SQLITE/./0}.tar.gz"
 PKG_DEPENDS_HOST="ccache:host autoconf:host automake:host"
 PKG_DEPENDS_TARGET="toolchain ncurses"
 PKG_LONGDESC="An Embeddable SQL Database Engine."

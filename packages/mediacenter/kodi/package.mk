@@ -3,8 +3,8 @@
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="kodi"
-PKG_VERSION="20.0a3-Nexus"
-PKG_SHA256="46a0e8571b046c4d5bc2e1058c65259ba6ebb7d40cf853b8fd08967cf8e22c41"
+PKG_VERSION="21.0a1-Omega"
+PKG_SHA256="848cdefa109d2d51c0b203be86fb13a4733cb42489292370110e526cd9d581bf"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.kodi.tv"
 PKG_URL="https://github.com/xbmc/xbmc/archive/${PKG_VERSION}.tar.gz"
@@ -18,6 +18,23 @@ configure_package() {
   if [ "${LTO_SUPPORT}" = "yes" ] && ! build_with_debug; then
     PKG_KODI_USE_LTO="-DUSE_LTO=${CONCURRENCY_MAKE_LEVEL}"
   fi
+
+  # Set linker options
+  case $(get_target_linker) in
+    gold)
+      PKG_KODI_LINKER="-DENABLE_GOLD=ON \
+                       -DENABLE_MOLD=OFF"
+      ;;
+    mold)
+      PKG_KODI_LINKER="-DENABLE_GOLD=OFF \
+                       -DENABLE_MOLD=ON \
+                       -DMOLD_EXECUTABLE=${TOOLCHAIN}/${TARGET_NAME}/bin/mold"
+      ;;
+    *)
+      PKG_KODI_LINKER="-DENABLE_GOLD=OFF \
+                       -DENABLE_MOLD=OFF"
+      ;;
+  esac
 
   get_graphicdrivers
 
@@ -33,6 +50,7 @@ configure_package() {
                    -DAPP_RENDER_SYSTEM=gl"
   elif [ "${DISPLAYSERVER}" = "wl" ]; then
     PKG_DEPENDS_TARGET+=" wayland waylandpp"
+    PKG_PATCH_DIRS+=" wayland"
     CFLAGS+=" -DEGL_NO_X11"
     CXXFLAGS+=" -DEGL_NO_X11"
     KODI_PLATFORM="-DCORE_PLATFORM_NAME=wayland \
@@ -164,10 +182,14 @@ configure_package() {
     KODI_UPNP="-DENABLE_UPNP=OFF"
   fi
 
-  if target_has_feature neon; then
-    KODI_NEON="-DENABLE_NEON=ON"
+  if [ "${TARGET_ARCH}" = "aarch64" -o "${TARGET_ARCH}" = "arm" ]; then
+    if target_has_feature neon; then
+      KODI_NEON="-DENABLE_NEON=ON"
+    else
+      KODI_NEON="-DENABLE_NEON=OFF"
+    fi
   else
-    KODI_NEON="-DENABLE_NEON=OFF"
+    KODI_NEON=""
   fi
 
   if [ "${VDPAU_SUPPORT}" = "yes" -a "${DISPLAYSERVER}" = "x11" ]; then
@@ -191,7 +213,7 @@ configure_package() {
   fi
 
   if [ ! "${KODIPLAYER_DRIVER}" = "default" -a "${DISPLAYSERVER}" = "no" ]; then
-    PKG_DEPENDS_TARGET+=" ${KODIPLAYER_DRIVER} libinput libxkbcommon"
+    PKG_DEPENDS_TARGET+=" ${KODIPLAYER_DRIVER} libinput libxkbcommon libdisplay-info"
     if [ "${OPENGLES_SUPPORT}" = yes -a "${KODIPLAYER_DRIVER}" = "${OPENGLES}" ]; then
       KODI_PLATFORM="-DCORE_PLATFORM_NAME=gbm -DAPP_RENDER_SYSTEM=gles"
       CFLAGS+=" -DEGL_NO_X11"
@@ -229,10 +251,9 @@ configure_package() {
                          -DENABLE_UDEV=ON \
                          -DENABLE_DBUS=ON \
                          -DENABLE_XSLT=ON \
-                         -DENABLE_CCACHE=ON \
+                         -DENABLE_CCACHE=OFF \
                          -DENABLE_LIRCCLIENT=ON \
                          -DENABLE_EVENTCLIENTS=ON \
-                         -DENABLE_LDGOLD=ON \
                          -DENABLE_DEBUGFISSION=OFF \
                          -DENABLE_APP_AUTONAME=OFF \
                          -DENABLE_TESTING=OFF \
@@ -240,6 +261,7 @@ configure_package() {
                          -DENABLE_LCMS2=OFF \
                          -DADDONS_CONFIGURE_AT_STARTUP=OFF \
                          ${PKG_KODI_USE_LTO} \
+                         ${PKG_KODI_LINKER} \
                          ${KODI_ARCH} \
                          ${KODI_NEON} \
                          ${KODI_VDPAU} \
@@ -355,7 +377,6 @@ post_makeinstall_target() {
     cp -R ${PKG_DIR}/config/repository.libreelec.tv ${INSTALL}/usr/share/kodi/addons
     sed -e "s|@ADDON_URL@|${ADDON_URL}|g" -i ${INSTALL}/usr/share/kodi/addons/repository.libreelec.tv/addon.xml
     sed -e "s|@ADDON_VERSION@|${ADDON_VERSION}|g" -i ${INSTALL}/usr/share/kodi/addons/repository.libreelec.tv/addon.xml
-    cp -R ${PKG_DIR}/config/repository.kodi.game ${INSTALL}/usr/share/kodi/addons
 
   mkdir -p ${INSTALL}/usr/share/kodi/config
 
@@ -391,7 +412,6 @@ post_makeinstall_target() {
   ADDON_MANIFEST=${INSTALL}/usr/share/kodi/system/addon-manifest.xml
   xmlstarlet ed -L -d "/addons/addon[text()='service.xbmc.versioncheck']" ${ADDON_MANIFEST}
   xmlstarlet ed -L -d "/addons/addon[text()='skin.estouchy']" ${ADDON_MANIFEST}
-  xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "repository.kodi.game" ${ADDON_MANIFEST}
   xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "repository.libreelec.tv" ${ADDON_MANIFEST}
   if [ -n "${DISTRO_PKG_SETTINGS}" ]; then
     xmlstarlet ed -L --subnode "/addons" -t elem -n "addon" -v "${DISTRO_PKG_SETTINGS_ID}" ${ADDON_MANIFEST}

@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="systemd"
-PKG_VERSION="251.4"
-PKG_SHA256="3459239979f52b8c4ace33734d31c2fb69fa13cf81d04b1b982f7d8d4651e015"
+PKG_VERSION="253.3"
+PKG_SHA256="569775d77084e45d15e103004cf4fbc00d7249c33791471b80f0c3296962bbfd"
 PKG_LICENSE="LGPL2.1+"
 PKG_SITE="http://www.freedesktop.org/wiki/Software/systemd"
 PKG_URL="https://github.com/systemd/systemd-stable/archive/v${PKG_VERSION}.tar.gz"
@@ -79,7 +79,6 @@ PKG_MESON_OPTS_TARGET="--libdir=/usr/lib \
                        -Dhwdb=true \
                        -Drfkill=false \
                        -Dldconfig=false \
-                       -Defi=false \
                        -Dtpm=false \
                        -Dima=false \
                        -Dsmack=false \
@@ -100,8 +99,13 @@ PKG_MESON_OPTS_TARGET="--libdir=/usr/lib \
                        -Dmount-path=/usr/bin/mount \
                        -Dumount-path=/usr/bin/umount \
                        -Ddebug-tty=${DEBUG_TTY} \
-                       -Dpkgconfigdatadir=/usr/lib/pkgconfig \
                        -Dversion-tag=${PKG_VERSION}"
+
+if [ "${PROJECT}" = "Generic" ]; then
+  PKG_MESON_OPTS_TARGET+=" -Defi=true"
+else
+  PKG_MESON_OPTS_TARGET+=" -Defi=false"
+fi
 
 pre_configure_target() {
   export TARGET_CFLAGS="${TARGET_CFLAGS} -fno-schedule-insns -fno-schedule-insns2 -Wno-format-truncation"
@@ -141,6 +145,11 @@ post_makeinstall_target() {
   safe_remove ${INSTALL}/usr/lib/systemd/systemd-update-done
   safe_remove ${INSTALL}/usr/lib/systemd/system/systemd-update-done.service
   safe_remove ${INSTALL}/usr/lib/systemd/system/*.target.wants/systemd-update-done.service
+  #
+  safe_remove ${INSTALL}/usr/lib/systemd/system/dev-hugepages.mount
+  safe_remove ${INSTALL}/usr/lib/systemd/system/*.target.wants/dev-hugepages.mount
+  #
+  safe_remove ${INSTALL}/usr/lib/systemd/system/systemd-journald-audit.socket
 
   # adjust systemd-hwdb-update (we have read-only /etc).
   sed '/^ConditionNeedsUpdate=.*$/d' -i ${INSTALL}/usr/lib/systemd/system/systemd-hwdb-update.service

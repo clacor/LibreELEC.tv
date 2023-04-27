@@ -1,7 +1,7 @@
-From 2b1bd0511669a7ab73f82e927e973c4ede5e9f8d Mon Sep 17 00:00:00 2001
+From 6142085e9460414a2fc7f51f0a52afea5eaf0923 Mon Sep 17 00:00:00 2001
 From: Christian Hewitt <christianshewitt@gmail.com>
 Date: Sat, 13 Apr 2019 05:41:51 +0000
-Subject: [PATCH 01/75] LOCAL: set meson-gx cma pool to 896MB
+Subject: [PATCH 001/119] LOCAL: set meson-gx cma pool to 896MB
 
 This change sets the CMA pool to a larger 896MB! value for vdec use
 
@@ -11,10 +11,10 @@ Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/amlogic/meson-gx.dtsi b/arch/arm64/boot/dts/amlogic/meson-gx.dtsi
-index aa14ea017a61..99b8916e0c5d 100644
+index fa6cff4a2ebc..5ee7640fad06 100644
 --- a/arch/arm64/boot/dts/amlogic/meson-gx.dtsi
 +++ b/arch/arm64/boot/dts/amlogic/meson-gx.dtsi
-@@ -58,7 +58,7 @@
+@@ -58,7 +58,7 @@ secmon_reserved_bl32: secmon@5300000 {
  		linux,cma {
  			compatible = "shared-dma-pool";
  			reusable;
@@ -24,5 +24,5 @@ index aa14ea017a61..99b8916e0c5d 100644
  			linux,cma-default;
  		};
 -- 
-2.17.1
+2.34.1
 

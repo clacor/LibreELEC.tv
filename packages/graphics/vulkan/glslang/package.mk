@@ -6,17 +6,17 @@ PKG_NAME="glslang"
 # The SPIRV-Tools & SPIRV-Headers pkg_version/s need to match the compatible (known_good) glslang pkg_version.
 # https://raw.githubusercontent.com/KhronosGroup/glslang/${PKG_VERSION}/known_good.json
 # When updating glslang pkg_version please update to the known_good spirv-tools & spirv-headers pkg_version/s.
-PKG_VERSION="11.11.0"
-PKG_SHA256="26c216c3062512c018cbdd752224b8dad703b7e5bb90bf338ba2dbb5d4f11438"
+PKG_VERSION="12.1.0"
+PKG_SHA256="1515e840881d1128fb6d831308433f731808f818f2103881162f3ffd47b15cd5"
 PKG_LICENSE="Apache-2.0"
 PKG_SITE="https://github.com/KhronosGroup/glslang"
 PKG_URL="https://github.com/KhronosGroup/glslang/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_HOST="toolchain:host Python3:host spirv-tools:host spirv-headers:host"
+PKG_DEPENDS_HOST="toolchain:host Python3:host"
+PKG_DEPENDS_TARGET="toolchain Python3"
 PKG_LONGDESC="Khronos-reference front end for GLSL/ESSL, partial front end for HLSL, and a SPIR-V generator."
+PKG_DEPENDS_UNPACK="spirv-headers spirv-tools"
 
-pre_configure_host() {
-  PKG_CMAKE_OPTS_HOST="-DBUILD_SHARED_LIBS=OFF \
-                       -DBUILD_EXTERNAL=ON \
+PKG_CMAKE_OPTS_COMMON="-DBUILD_EXTERNAL=ON \
                        -DENABLE_SPVREMAPPER=OFF \
                        -DENABLE_GLSLANG_JS=OFF \
                        -DENABLE_RTTI=OFF \
@@ -24,10 +24,24 @@ pre_configure_host() {
                        -DENABLE_OPT=ON \
                        -DENABLE_PCH=ON \
                        -DENABLE_CTEST=OFF \
-                       -DENABLE_RTTI=OFF \
+                       -DUSE_CCACHE=ON \
                        -Wno-dev"
 
+post_unpack() {
+  # Enables SPIR-V optimzer capability needed for ENABLE_OPT CMake build option
   mkdir -p ${PKG_BUILD}/External/spirv-tools/external/spirv-headers
     cp -R $(get_build_dir spirv-tools)/* ${PKG_BUILD}/External/spirv-tools
     cp -R $(get_build_dir spirv-headers)/* ${PKG_BUILD}/External/spirv-tools/external/spirv-headers
+}
+
+pre_configure_host() {
+  PKG_CMAKE_OPTS_HOST+="${PKG_CMAKE_OPTS_COMMON} \
+                        -DBUILD_SHARED_LIBS=OFF"
+
+}
+
+pre_configure_target() {
+  PKG_CMAKE_OPTS_TARGET+="${PKG_CMAKE_OPTS_COMMON} \
+                          -DBUILD_SHARED_LIBS=ON \
+                          -DENABLE_GLSLANG_BINARIES=OFF"
 }

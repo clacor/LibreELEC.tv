@@ -16,21 +16,22 @@ PKG_PATCH_DIRS="${LINUX}"
 
 case "${LINUX}" in
   amlogic)
-    PKG_VERSION="3d7cb6b04c3f3115719235cc6866b10326de34cd" # 5.19
-    PKG_SHA256="3e35fa50a8a388ceee5cac5e6c2d08d558594891ec7fd83a193aba44b81e2388"
+    PKG_VERSION="7d54cb2c26dad1264ecca85992bfe8984df4b7b5" # 6.1.14
+    PKG_SHA256="76f039741d61e06c740b846291e5017b97da7d3f91fb2f368230a161d46905a6"
     PKG_URL="https://github.com/torvalds/linux/archive/${PKG_VERSION}.tar.gz"
     PKG_SOURCE_NAME="linux-${LINUX}-${PKG_VERSION}.tar.gz"
+    PKG_PATCH_DIRS="default"
     ;;
   raspberrypi)
-    PKG_VERSION="4710bf680f806a4ff50a1278015de2577e9a44e4" # 5.15.61
-    PKG_SHA256="2cde145b11025042b4078b137d88a2cf60ba2de39a89e4756b7e401e3c04505d"
+    PKG_VERSION="cb8d82ae0059dd19f0f24a3c1e1081c87d73b0ea" # 6.1.23
+    PKG_SHA256="bb447497dddae03d6cf9235e8e8a9613a637c0143ea4ca6cb842d0f5c805c577"
     PKG_URL="https://github.com/raspberrypi/linux/archive/${PKG_VERSION}.tar.gz"
     PKG_SOURCE_NAME="linux-${LINUX}-${PKG_VERSION}.tar.gz"
     ;;
   *)
-    PKG_VERSION="5.19.7"
-    PKG_SHA256="b8bb6019d4255f39196726f9d0f82f76179d1c3d7c6b603431ef04b38201199f"
-    PKG_URL="https://www.kernel.org/pub/linux/kernel/v5.x/${PKG_NAME}-${PKG_VERSION}.tar.xz"
+    PKG_VERSION="6.1.23"
+    PKG_SHA256="7458372e8750afe37fd1ac3e7ab3c22f2c6018f760f8134055a03f54aba3ebeb"
+    PKG_URL="https://www.kernel.org/pub/linux/kernel/v${PKG_VERSION/.*/}.x/${PKG_NAME}-${PKG_VERSION}.tar.xz"
     PKG_PATCH_DIRS="default"
     ;;
 esac
@@ -170,7 +171,8 @@ pre_make_target() {
     ${PKG_BUILD}/scripts/config --set-str CONFIG_EXTRA_FIRMWARE_DIR "external-firmware"
   fi
 
-  kernel_make oldconfig
+  kernel_make listnewconfig
+  yes "" | kernel_make oldconfig > /dev/null
 
   if [ -f "${DISTRO_DIR}/${DISTRO}/kernel_options" ]; then
     while read OPTION; do

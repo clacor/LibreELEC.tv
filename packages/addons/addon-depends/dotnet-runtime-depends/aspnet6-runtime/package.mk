@@ -2,7 +2,7 @@
 # Copyright (C) 2022-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="aspnet6-runtime"
-PKG_VERSION="6.0.8"
+PKG_VERSION="6.0.16"
 PKG_LICENSE="MIT"
 PKG_SITE="https://dotnet.microsoft.com/"
 PKG_DEPENDS_TARGET="toolchain"
@@ -11,16 +11,16 @@ PKG_TOOLCHAIN="manual"
 
 case "${ARCH}" in
   "aarch64")
-    PKG_SHA256="8a8d7ebfd2a6a806e57b6bfa1fd71b99a789c947c66c30c081824b1a00123c78"
-    PKG_URL="https://download.visualstudio.microsoft.com/download/pr/83695c9b-c954-459e-b9bf-2f1ac269e34e/1316ff4a6fe4c6916e7ecb3623d67cee/aspnetcore-runtime-6.0.8-linux-arm64.tar.gz"
+    PKG_SHA256="eba3d57245dcc02ef7b9677a6f205d8a0b932a4aa1e552c9e9094cefab6b52c2"
+    PKG_URL="https://download.visualstudio.microsoft.com/download/pr/5fe35f73-59e4-462e-b7aa-98b5b8782051/74a27e03d896663a9483eb72bc59b275/aspnetcore-runtime-6.0.16-linux-arm64.tar.gz"
     ;;
   "arm")
-    PKG_SHA256="8e53a2bf2d145c8983b85db1e1010bdf257f0d30beedaaa34a602e69ca4d74bf"
-    PKG_URL="https://download.visualstudio.microsoft.com/download/pr/cf567026-a29a-41aa-bc3a-e4e1ad0df480/0925d411e8e09e31ba7a39a3eb0e29af/aspnetcore-runtime-6.0.8-linux-arm.tar.gz"
+    PKG_SHA256="717d98c382cdc3abb5e25cc7437b7ffe4b195c072a233b5be44b762d374683c7"
+    PKG_URL="https://download.visualstudio.microsoft.com/download/pr/4054a868-d2c9-4e04-84ea-d78b6b77c8cb/f69efb40d4cc84fa5f792d0bb821eea8/aspnetcore-runtime-6.0.16-linux-arm.tar.gz"
     ;;
   "x86_64")
-    PKG_SHA256="2bd3c32aacacbb6963df523e1022bc1989f7f1efc0de87d458cd3721dfafc42b"
-    PKG_URL="https://download.visualstudio.microsoft.com/download/pr/5cc06c3a-4d8a-4fb2-8f7a-ecd23cd8c4e0/dd386c0e3a41ea54f459907c834acedf/aspnetcore-runtime-6.0.8-linux-x64.tar.gz"
+    PKG_SHA256="099a6aa6516413b88fb877d10deb1d171c1a772f1cd83cdb46003de72aec07cd"
+    PKG_URL="https://download.visualstudio.microsoft.com/download/pr/877a2d48-74ed-484b-85a1-605078f5e718/752ce1e38b76ffb5ebfc2ee1772307bf/aspnetcore-runtime-6.0.16-linux-x64.tar.gz"
     ;;
 esac
 PKG_SOURCE_NAME="aspnetcore-runtime_${PKG_VERSION}_${ARCH}.tar.gz"

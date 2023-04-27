@@ -2,8 +2,8 @@
 # Copyright (C) 2022-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="nv-codec-headers"
-PKG_VERSION="11.1.5.1"
-PKG_SHA256="d095fbd56aa93772471a323be0ebe65504a0f43f06c76a30b6d25da77b06ae9c"
+PKG_VERSION="12.0.16.0"
+PKG_SHA256="2a1533b65f55f9da52956faf0627ed3b74868ac0c7f269990edd21369113b48f"
 PKG_LICENSE="MIT"
 PKG_SITE="https://github.com/FFmpeg/nv-codec-headers"
 PKG_URL="https://github.com/FFmpeg/nv-codec-headers/archive/n${PKG_VERSION}.tar.gz"

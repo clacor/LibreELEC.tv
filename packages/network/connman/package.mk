@@ -3,8 +3,8 @@
 # Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="connman"
-PKG_VERSION="1e1d2af009efc8a8b65eccc06188bd6b28271af7" # 1.41+ / 2022-05-25
-PKG_SHA256="bfdc7a8261c476c003df59a2952090dacf67c78b97027f06db3280edce0d4ee5"
+PKG_VERSION="9971144ae862e83f1f5d8cb84c0b62f2542dcdec" # 1.41 + 2023-01-16
+PKG_SHA256="57ec9d2f4b007f90c1eecdae8ae69d051457f2e408b4d93f5490735797376d9e"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.connman.net"
 PKG_URL="https://git.kernel.org/pub/scm/network/connman/connman.git/snapshot/connman-${PKG_VERSION}.tar.gz"
@@ -90,7 +90,7 @@ post_makeinstall_target() {
         -e "s|^# FallbackNameservers.*|FallbackNameservers = 8.8.8.8,8.8.4.4|g" \
         -e "s|^# FallbackTimeservers.*|FallbackTimeservers = 0.pool.ntp.org,1.pool.ntp.org,2.pool.ntp.org,3.pool.ntp.org|g" \
         -e "s|^# PreferredTechnologies.*|PreferredTechnologies = ethernet,wifi,cellular|g" \
-        -e "s|^# TetheringTechnologies.*|TetheringTechnologies = wifi|g" \
+        -e "s|^# TetheringTechnologies.*|TetheringTechnologies = ethernet,wifi|g" \
         -e "s|^# AllowHostnameUpdates.*|AllowHostnameUpdates = false|g" \
         -e "s|^# PersistentTetheringMode.*|PersistentTetheringMode = true|g" \
         -e "s|^# NetworkInterfaceBlacklist = vmnet,vboxnet,virbr,ifb|NetworkInterfaceBlacklist = vmnet,vboxnet,virbr,ifb,docker,veth,zt|g"

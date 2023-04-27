@@ -2,8 +2,8 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="game.libretro.gw"
-PKG_VERSION="1.6.3.19-Matrix"
-PKG_SHA256="85724bd0cbee659db6c464dde1f4bc3d259bea6451f489e89b786ba30c072a47"
+PKG_VERSION="1.6.3.26-Nexus"
+PKG_SHA256="828f01629342bf916f0697b452389c2d9e2a06b83139ac6e39f379f8ff515ff4"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

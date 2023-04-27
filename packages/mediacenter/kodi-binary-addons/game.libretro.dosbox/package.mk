@@ -2,8 +2,8 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="game.libretro.dosbox"
-PKG_VERSION="0.74.0.15-Leia"
-PKG_SHA256="72eab7613b4da3fcb17b9771ab3962b37fcdbebfb39d40225c65ac5ba3ae966e"
+PKG_VERSION="0.74.0.22-Nexus"
+PKG_SHA256="d1848459fa71c2012891e5ce8e43f193a9516523fc6cc8a9ac7ac8a72f03453b"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

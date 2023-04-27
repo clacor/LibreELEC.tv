@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libva"
-PKG_VERSION="2.15.0"
-PKG_SHA256="869aaa9b9eccb1cde63e1c5b0ac0881cefc00156010bb49f6dce152471770ba8"
+PKG_VERSION="2.18.0"
+PKG_SHA256="9d666c70c12dfefcdd27ae7dea771557f75e24961d0ed4cb050d96fb6136f438"
 PKG_ARCH="x86_64"
 PKG_LICENSE="GPL"
 PKG_SITE="https://01.org/linuxmedia"
@@ -24,5 +24,4 @@ fi
 
 PKG_MESON_OPTS_TARGET="-Ddisable_drm=false \
                        -Denable_docs=false \
-                       -Denable_va_messaging=true \
                        ${DISPLAYSERVER_LIBVA}"
