@@ -2,8 +2,8 @@
 # Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="pugixml"
-PKG_VERSION="1.13"
-PKG_SHA256="5c5ad5d7caeb791420408042a7d88c2c6180781bf218feca259fd9d840a888e1"
+PKG_VERSION="1.15"
+PKG_SHA256="b39647064d9e28297a34278bfb897092bf33b7c487906ddfc094c9e8868bddcb"
 PKG_LICENSE="MIT"
 PKG_SITE="https://pugixml.org/"
 PKG_URL="https://github.com/zeux/pugixml/archive/v${PKG_VERSION}.tar.gz"

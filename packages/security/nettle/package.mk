@@ -3,16 +3,20 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="nettle"
-PKG_VERSION="3.8.1"
-PKG_SHA256="364f3e2b77cd7dcde83fd7c45219c834e54b0c75e428b6f894a23d12dd41cbfe"
+PKG_VERSION="3.10.1"
+PKG_SHA256="b0fcdd7fc0cdea6e80dcf1dd85ba794af0d5b4a57e26397eee3bc193272d9132"
 PKG_LICENSE="GPL2"
 PKG_SITE="http://www.lysator.liu.se/~nisse/nettle"
 PKG_URL="https://ftp.gnu.org/gnu/nettle/nettle-${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain gmp"
+PKG_DEPENDS_HOST="autotools:host gmp:host"
+PKG_DEPENDS_TARGET="autotools:host gcc:host gmp"
 PKG_LONGDESC="A low-level cryptographic library."
 
-PKG_CONFIGURE_OPTS_TARGET="--disable-documentation \
+PKG_CONFIGURE_OPTS_COMMON="--disable-documentation \
                            --disable-openssl"
+
+PKG_CONFIGURE_OPTS_HOST="${PKG_CONFIGURE_OPTS_COMMON}"
+PKG_CONFIGURE_OPTS_TARGET="${PKG_CONFIGURE_OPTS_COMMON}"
 
 if target_has_feature neon; then
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-arm-neon"

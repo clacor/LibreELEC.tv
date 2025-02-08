@@ -3,16 +3,20 @@
 # Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="nss"
-PKG_VERSION="3.89"
-PKG_SHA256="e40012df101331eadb87cfdb204969ab2a4b9a81735deba94fe5501aff12fd65"
+PKG_VERSION="3.108"
+PKG_SHA256="12db2163548e3be4b572821280b579e8b68d6f7c6a91c32b231cab43fcaea564"
 PKG_LICENSE="Mozilla Public License"
 PKG_SITE="http://ftp.mozilla.org/"
 PKG_URL="https://ftp.mozilla.org/pub/security/nss/releases/NSS_${PKG_VERSION//./_}_RTM/src/nss-${PKG_VERSION}-with-nspr-$(get_pkg_version nspr).tar.gz"
 PKG_DEPENDS_HOST="nspr:host zlib:host"
-PKG_DEPENDS_TARGET="toolchain nss:host nspr zlib sqlite"
+PKG_DEPENDS_TARGET="make:host gcc:host nss:host nspr zlib sqlite"
 PKG_LONGDESC="The Network Security Services (NSS) package is a set of libraries designed to support cross-platform development of security-enabled client and server applications"
 PKG_TOOLCHAIN="manual"
 PKG_BUILD_FLAGS="-parallel"
+
+post_patch() {
+  echo "DEFINES += -DNSS_FIPS_DISABLED" >> ${PKG_BUILD}/nss/coreconf/config.mk
+}
 
 make_host() {
   cd ${PKG_BUILD}/nss
@@ -21,14 +25,14 @@ make_host() {
   rm -rf ${PKG_BUILD}/dist
 
   INCLUDES="-I${TOOLCHAIN}/include" \
-  make BUILD_OPT=1 USE_64=1 \
-     PREFIX=${TOOLCHAIN} \
-     NSPR_INCLUDE_DIR=${TOOLCHAIN}/include/nspr \
-     USE_SYSTEM_ZLIB=1 ZLIB_LIBS="-lz -L${TOOLCHAIN}/lib" \
-     SKIP_SHLIBSIGN=1 \
-     NSS_TESTS="dummy" \
-     CC=${CC} LDFLAGS="${LDFLAGS} -L${TOOLCHAIN}/lib" \
-     V=1
+    make BUILD_OPT=1 USE_64=1 \
+    PREFIX=${TOOLCHAIN} \
+    NSPR_INCLUDE_DIR=${TOOLCHAIN}/include/nspr \
+    USE_SYSTEM_ZLIB=1 ZLIB_LIBS="-lz -L${TOOLCHAIN}/lib" \
+    SKIP_SHLIBSIGN=1 \
+    NSS_TESTS="dummy" \
+    CC=${CC} LDFLAGS="${LDFLAGS} -L${TOOLCHAIN}/lib" \
+    V=1
 }
 
 makeinstall_host() {
@@ -54,18 +58,18 @@ make_target() {
   rm -rf ${PKG_BUILD}/dist
 
   make BUILD_OPT=1 ${TARGET_USE_64} ${TARGET_x86_64} \
-     NSS_USE_SYSTEM_SQLITE=1 \
-     NSPR_INCLUDE_DIR=${SYSROOT_PREFIX}/usr/include/nspr \
-     NSS_USE_SYSTEM_SQLITE=1 \
-     USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz \
-     SKIP_SHLIBSIGN=1 \
-     OS_TEST=${TARGET_ARCH} \
-     NSS_TESTS="dummy" \
-     NSINSTALL=${TOOLCHAIN}/bin/nsinstall \
-     CPU_ARCH_TAG=${TARGET_ARCH} \
-     CC=${CC} \
-     LDFLAGS="${LDFLAGS} -L${SYSROOT_PREFIX}/usr/lib" \
-     V=1
+    NSS_USE_SYSTEM_SQLITE=1 \
+    NSPR_INCLUDE_DIR=${SYSROOT_PREFIX}/usr/include/nspr \
+    NSS_USE_SYSTEM_SQLITE=1 \
+    USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz \
+    SKIP_SHLIBSIGN=1 \
+    OS_TEST=${TARGET_ARCH} \
+    NSS_TESTS="dummy" \
+    NSINSTALL=${TOOLCHAIN}/bin/nsinstall \
+    CPU_ARCH_TAG=${TARGET_ARCH} \
+    CC=${CC} \
+    LDFLAGS="${LDFLAGS} -L${SYSROOT_PREFIX}/usr/lib" \
+    V=1
 }
 
 makeinstall_target() {

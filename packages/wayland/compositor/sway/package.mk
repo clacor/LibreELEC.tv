@@ -2,8 +2,8 @@
 # Copyright (C) 2021-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="sway"
-PKG_VERSION="1.8.1"
-PKG_SHA256="e9f575761342fc8fe0cfeea80c90f32ddfa8c543572fec179f40922346f47dff"
+PKG_VERSION="1.10.1"
+PKG_SHA256="8565ab3b359780f02b1dcb24dc48e5b6b82c64dd97ca795782c2fb4cab62457b"
 PKG_LICENSE="MIT"
 PKG_SITE="https://swaywm.org/"
 PKG_URL="https://github.com/swaywm/sway/archive/${PKG_VERSION}.tar.gz"
@@ -16,7 +16,6 @@ PKG_MESON_OPTS_TARGET="-Ddefault-wallpaper=false \
                        -Dfish-completions=false \
                        -Dswaybar=true \
                        -Dswaynag=true \
-                       -Dxwayland=disabled \
                        -Dtray=disabled \
                        -Dgdk-pixbuf=enabled \
                        -Dman-pages=disabled \

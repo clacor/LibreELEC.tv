@@ -2,8 +2,8 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="game.libretro.prosystem"
-PKG_VERSION="1.3.0.35-Nexus"
-PKG_SHA256="a479c480841e558bac8dc9ff3f3cf38dc734ed7343866e60d12f28625ef30733"
+PKG_VERSION="1.3.0.44-Omega"
+PKG_SHA256="dfc492f3c5bbc0ac11c0bf465f630ab163443c4297036b4fd0792ffd26827097"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

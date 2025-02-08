@@ -3,13 +3,13 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="gdb"
-PKG_VERSION="13.1"
-PKG_SHA256="115ad5c18d69a6be2ab15882d365dda2a2211c14f480b3502c6eba576e2e95a0"
+PKG_VERSION="16.2"
+PKG_SHA256="4002cb7f23f45c37c790536a13a720942ce4be0402d929c9085e92f10d480119"
 PKG_LICENSE="GPL"
-PKG_SITE="http://www.gnu.org/software/gdb/"
+PKG_SITE="https://www.gnu.org/software/gdb/"
 PKG_URL="https://ftp.gnu.org/gnu/gdb/${PKG_NAME}-${PKG_VERSION}.tar.xz"
-PKG_DEPENDS_TARGET="toolchain zlib ncurses expat gmp"
-PKG_DEPENDS_HOST="toolchain:host zlib:host ncurses:host expat:host gmp:host"
+PKG_DEPENDS_TARGET="toolchain expat gmp mpfr ncurses zlib"
+PKG_DEPENDS_HOST="toolchain:host expat:host gmp:host mpfr:host ncurses:host zlib:host"
 PKG_LONGDESC="GNU Project debugger, allows you to see what is going on inside another program while it executes."
 PKG_BUILD_FLAGS="+size"
 
@@ -19,7 +19,6 @@ PKG_CONFIGURE_OPTS_COMMON="bash_cv_have_mbstate_t=set \
                            --with-auto-load-safe-path=/ \
                            --with-python=no \
                            --with-guile=no \
-                           --with-mpfr=no \
                            --with-intel-pt=no \
                            --with-babeltrace=no \
                            --with-expat=yes \

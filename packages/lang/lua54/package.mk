@@ -2,13 +2,14 @@
 # Copyright (C) 2022-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="lua54"
-PKG_VERSION="5.4.4"
-PKG_SHA256="164c7849653b80ae67bec4b7473b884bf5cc8d2dca05653475ec2ed27b9ebf61"
+PKG_VERSION="5.4.7"
+PKG_SHA256="9fbf5e28ef86c69858f6d3d34eccc32e911c1a28b4120ff3e84aaa70cfbf1e30"
 PKG_LICENSE="MIT"
 PKG_SITE="https://www.lua.org"
 PKG_URL="http://www.lua.org/ftp/lua-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="Lua is a powerful, efficient, lightweight, embeddable scripting language."
+PKG_BUILD_FLAGS="+pic"
 
 make_target() {
   make CC=${CC} AR="${AR} rcu" MYCFLAGS="-fPIC" posix

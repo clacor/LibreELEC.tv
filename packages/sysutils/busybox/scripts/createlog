@@ -104,7 +104,7 @@ mkdir -p $BASEDIR/$LOGDIR
     getlog_cmd cat /storage/.config/shutdown.sh
   fi
   getlog_cmd ls -laR /storage/.config/system.d
-  # note: we dont add .mount units here as they may contan
+  # note: we dont add .mount units here as they may contain
   # login credentials
   for i in /storage/.config/system.d/*.service ; do
     if [ -f "$i" ] && [ ! -L "$i" ]; then
@@ -137,7 +137,7 @@ mkdir -p $BASEDIR/$LOGDIR
 
 # varlog.log
   LOGFILE="06_varlog.log"
-  for i in $(find /var/log -type f); do
+  for i in $(find /var/log -name journal -prune -o -type f -print); do
     getlog_cmd cat $i
   done
 

@@ -64,7 +64,7 @@
 # for a list of additional drivers see packages/linux-drivers
 # Space separated list is supported,
 # e.g. ADDITIONAL_DRIVERS="DRIVER1 DRIVER2"
-  ADDITIONAL_DRIVERS="RTL8192DU RTL8812AU"
+  ADDITIONAL_DRIVERS=""
 
 # Default size of system partition, in MB, eg. 512
   SYSTEM_SIZE=512
@@ -87,6 +87,8 @@
 # debug tty path
   DEBUG_TTY="/dev/tty3"
 
+# local console login prompt (yes / no)
+  LOCAL_LOGIN="no"
 
 ### KODI SETTINGS ###
 # Mediacenter to use (kodi / no)
@@ -142,7 +144,7 @@
 # build with MySQL support (mariadb / none)
   KODI_MYSQL_SUPPORT="mariadb"
 
-# build xbmc with optical drive support (yes / no)
+# build Kodi with optical drive support (yes / no)
   KODI_OPTICAL_SUPPORT="yes"
 
 # build with AirPlay support (stream videos from iDevices to KODI) (yes / no)
@@ -193,9 +195,6 @@
   DEBUG_GROUPS="kodi+=kodi+,kodi-platform+,p8-platform+,!mesa"
   DEBUG_GROUP_YES="kodi+"
 
-# wireless daemon to use (wpa_supplicant/iwd)
-  WIRELESS_DAEMON="iwd"
-
 # build and install iSCSI support - iscsistart (yes / no)
   ISCSI_SUPPORT="no"
 
@@ -222,7 +221,7 @@
 # mediacenter also automount internally drives at boottime via udev (yes / no)
   UDEVIL="yes"
 
-# Support for partitioning and formating disks in initramfs (yes / no)
+# Support for partitioning and formatting disks in initramfs (yes / no)
 # This adds support for parted and mkfs.ext3/4 to initramfs for OEM usage
   INITRAMFS_PARTED_SUPPORT="no"
 

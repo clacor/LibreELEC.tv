@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="game.libretro.sameboy"
-PKG_VERSION="0.15.4.34-Nexus"
-PKG_SHA256="284d7da5e4c1815322e3899c819705864ced2cd2215a4f50902861496163ef41"
+PKG_VERSION="0.15.4.45-Omega"
+PKG_SHA256="f213faa4b7c691e024ed51389bf657f6d285843b972811185eec3ba6e8ee0482"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

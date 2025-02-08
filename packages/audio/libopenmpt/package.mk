@@ -3,8 +3,8 @@
 # Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libopenmpt"
-PKG_VERSION="0.6.9"
-PKG_SHA256="479e975abb7dc0fa9cad41bdd31f255d78d43e0726546208058d3c3fcf7b6e5a"
+PKG_VERSION="0.7.13"
+PKG_SHA256="dcd7cde4f9c498eb496c4556e1c1b81353e2a74747e8270a42565117ea42e1f1"
 PKG_LICENSE="BSD"
 PKG_SITE="https://lib.openmpt.org/libopenmpt/"
 PKG_URL="https://lib.openmpt.org/files/libopenmpt/src/${PKG_NAME}-${PKG_VERSION}+release.autotools.tar.gz"
@@ -20,7 +20,6 @@ PKG_CONFIGURE_OPTS_TARGET="--enable-static \
                            --without-pulseaudio \
                            --without-portaudio \
                            --without-portaudiocpp \
-                           --without-sdl \
                            --without-sdl2 \
                            --without-sndfile \
                            --without-flac"

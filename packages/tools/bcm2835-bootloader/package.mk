@@ -3,8 +3,8 @@
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="bcm2835-bootloader"
-PKG_VERSION="c4122b8708d2d1e8a123e45b188d0bc2d0105bca"
-PKG_SHA256="99e562ca8b94c8eb0fbf8222f35c805b6dfdb96e8efe62be6c8cce6fab19bf8b"
+PKG_VERSION="b543406ce066d3fcaa03078511bc47e62ad0bbec"
+PKG_SHA256="0e696f4b8a78ca8826c5fea3ffafd9189d32308d964bc45f890371db526f094e"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="nonfree"
 PKG_SITE="http://www.broadcom.com"
@@ -16,17 +16,26 @@ PKG_TOOLCHAIN="manual"
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/share/bootloader
     cp -PRv LICENCE* ${INSTALL}/usr/share/bootloader
-    cp -PRv bootcode.bin ${INSTALL}/usr/share/bootloader
-    if [ "${DEVICE}" = "RPi4" ]; then
-      cp -PRv fixup4x.dat ${INSTALL}/usr/share/bootloader/fixup.dat
-      cp -PRv start4x.elf ${INSTALL}/usr/share/bootloader/start.elf
-    else
-      cp -PRv fixup_x.dat ${INSTALL}/usr/share/bootloader/fixup.dat
-      cp -PRv start_x.elf ${INSTALL}/usr/share/bootloader/start.elf
-    fi
+    case "${DEVICE}" in
+      RPi4)
+        cp -PRv fixup4x.dat ${INSTALL}/usr/share/bootloader/fixup.dat
+        cp -PRv start4x.elf ${INSTALL}/usr/share/bootloader/start.elf
+        ;;
+      RPi5) ;;
+      *)
+        cp -PRv bootcode.bin ${INSTALL}/usr/share/bootloader
+        cp -PRv fixup_x.dat ${INSTALL}/usr/share/bootloader/fixup.dat
+        cp -PRv start_x.elf ${INSTALL}/usr/share/bootloader/start.elf
+        ;;
+    esac
 
     find_file_path bootloader/update.sh ${PKG_DIR}/files/update.sh && cp -PRv ${FOUND_PATH} ${INSTALL}/usr/share/bootloader
-    find_file_path bootloader/canupdate.sh && cp -PRv ${FOUND_PATH} ${INSTALL}/usr/share/bootloader
+
+    if find_file_path bootloader/canupdate.sh; then
+      cp -PRv ${FOUND_PATH} ${INSTALL}/usr/share/bootloader
+      sed -e "s/@PROJECT@/${DEVICE:-${PROJECT}}/g" \
+          -i ${INSTALL}/usr/share/bootloader/canupdate.sh
+    fi
 
     find_file_path config/distroconfig.txt ${PKG_DIR}/files/distroconfig.txt && cp -PRv ${FOUND_PATH} ${INSTALL}/usr/share/bootloader
     find_file_path config/distroconfig-composite.txt ${PKG_DIR}/files/distroconfig-composite.txt && cp -PRv ${FOUND_PATH} ${INSTALL}/usr/share/bootloader

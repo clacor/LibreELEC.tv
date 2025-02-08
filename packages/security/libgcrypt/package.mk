@@ -3,12 +3,12 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libgcrypt"
-PKG_VERSION="1.8.7"
-PKG_SHA256="03b70f028299561b7034b8966d7dd77ef16ed139c43440925fe8782561974748"
+PKG_VERSION="1.11.0"
+PKG_SHA256="09120c9867ce7f2081d6aaa1775386b98c2f2f246135761aae47d81f58685b9c"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://www.gnupg.org/"
 PKG_URL="https://www.gnupg.org/ftp/gcrypt/libgcrypt/${PKG_NAME}-${PKG_VERSION}.tar.bz2"
-PKG_DEPENDS_TARGET="toolchain libgpg-error"
+PKG_DEPENDS_TARGET="autotools:host gcc:host libgpg-error"
 PKG_LONGDESC="A General purpose cryptographic library."
 PKG_TOOLCHAIN="autotools"
 # libgcrypt-1.7.x fails to build with LTO support

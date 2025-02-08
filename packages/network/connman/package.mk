@@ -3,12 +3,12 @@
 # Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="connman"
-PKG_VERSION="9971144ae862e83f1f5d8cb84c0b62f2542dcdec" # 1.41 + 2023-01-16
-PKG_SHA256="57ec9d2f4b007f90c1eecdae8ae69d051457f2e408b4d93f5490735797376d9e"
+PKG_VERSION="1.43"
+PKG_SHA256="22acfe9d5958d7983090232334a692eee66a12f3077e09e4f360276608156738"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.connman.net"
 PKG_URL="https://git.kernel.org/pub/scm/network/connman/connman.git/snapshot/connman-${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain glib readline dbus iptables"
+PKG_DEPENDS_TARGET="autotools:host gcc:host dbus glib iptables iwd readline"
 PKG_LONGDESC="A modular network connection manager."
 PKG_TOOLCHAIN="autotools"
 
@@ -40,29 +40,17 @@ PKG_CONFIGURE_OPTS_TARGET="--srcdir=.. \
                            --disable-stats \
                            --enable-client \
                            --enable-datafiles \
-                           --with-dbusconfdir=/etc \
+                           --with-dbusconfdir=/usr/share \
                            --with-systemdunitdir=/usr/lib/systemd/system \
-                           --disable-silent-rules"
+                           --disable-silent-rules \
+                           --disable-wifi \
+                           --enable-iwd"
 
 if [ "${WIREGUARD_SUPPORT}" = "yes" ]; then
   PKG_CONFIGURE_OPTS_TARGET+=" --enable-wireguard=builtin"
 else
   PKG_CONFIGURE_OPTS_TARGET+=" --disable-wireguard"
 fi
-
-case "${WIRELESS_DAEMON}" in
-  wpa_supplicant)
-    PKG_DEPENDS_TARGET+=" wpa_supplicant"
-    PKG_CONFIGURE_OPTS_TARGET+=" WPASUPPLICANT=/usr/bin/wpa_supplicant \
-                                 --enable-wifi \
-                                 --disable-iwd"
-    ;;
-  iwd)
-    PKG_DEPENDS_TARGET+=" iwd"
-    PKG_CONFIGURE_OPTS_TARGET+=" --disable-wifi \
-                                 --enable-iwd"
-    ;;
-esac
 
 PKG_MAKE_OPTS_TARGET="storagedir=/storage/.cache/connman \
                       vpn_storagedir=/storage/.config/wireguard \

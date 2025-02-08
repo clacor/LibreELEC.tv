@@ -2,8 +2,8 @@
 # Copyright (C) 2016-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="libretro-stella"
-PKG_VERSION="1cc58b9d02ec79fed9c52a5fb99ad35681b1d2ce"
-PKG_SHA256="9798c63936747f4f1bcb6b3d56d42769a5d0a145160a48242a4d296dacdb06b3"
+PKG_VERSION="db3a38be7b77d5929daf00c5eba6ead167e974ec"
+PKG_SHA256="f1ddd4826cedb16c3723e798e9b4bb21564080ef561f742d88120f1f999c6888"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/stella-emu/stella"
 PKG_URL="https://github.com/stella-emu/stella/archive/${PKG_VERSION}.tar.gz"
@@ -20,5 +20,5 @@ PKG_MAKE_OPTS_TARGET="-C ../src/os/libretro -f Makefile"
 makeinstall_target() {
   mkdir -p ${SYSROOT_PREFIX}/usr/lib/cmake/${PKG_NAME}
   cp ${PKG_LIBPATH} ${SYSROOT_PREFIX}/usr/lib/${PKG_LIBNAME}
-  echo "set(${PKG_LIBVAR} ${SYSROOT_PREFIX}/usr/lib/${PKG_LIBNAME})" > ${SYSROOT_PREFIX}/usr/lib/cmake/${PKG_NAME}/${PKG_NAME}-config.cmake
+  echo "set(${PKG_LIBVAR} ${SYSROOT_PREFIX}/usr/lib/${PKG_LIBNAME})" >${SYSROOT_PREFIX}/usr/lib/cmake/${PKG_NAME}/${PKG_NAME}-config.cmake
 }
